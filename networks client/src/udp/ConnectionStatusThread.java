@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class ConnectionStatusThread extends Thread {
 	protected DatagramSocket socket = null;
-	public static int dropEveryNthPackage;
+	public static int dropEveryNthPackage = 3;
     
     public ConnectionStatusThread(String name) throws IOException {
         super(name);
@@ -39,8 +39,8 @@ public class ConnectionStatusThread extends Thread {
                 int port = packet.getPort();
                 packet = new DatagramPacket(buffer, buffer.length, address, port);
                
-                dropEveryNthPackage = 4;
-				if(number++ % dropEveryNthPackage !=0 || dropEveryNthPackage == 0){
+                //dropEveryNthPackage = 4;
+				if(dropEveryNthPackage == 0 || number++ % dropEveryNthPackage !=0){
                 	socket.send(packet);
 				}
             } catch (IOException e) {

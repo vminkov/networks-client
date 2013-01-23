@@ -37,7 +37,7 @@ public class SecureNetworkMessenger implements Runnable, Messenger {
 	
 	private SecureNetworkMessenger() {
 		try {
-			serverAddress = InetAddress.getByName("192.168.0.111");
+			serverAddress = InetAddress.getByName("192.168.0.102");
 			//serverAddress = InetAddress.getLocalHost();
 		} catch (UnknownHostException e) {
 			e.printStackTrace();

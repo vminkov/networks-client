@@ -37,7 +37,8 @@ public class SecureNetworkMessenger implements Runnable, Messenger {
 	
 	private SecureNetworkMessenger() {
 		try {
-			serverAddress = InetAddress.getLocalHost();
+			serverAddress = InetAddress.getByName("192.168.0.111");
+			//serverAddress = InetAddress.getLocalHost();
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
@@ -46,7 +47,7 @@ public class SecureNetworkMessenger implements Runnable, Messenger {
 	public void run(){
 		try {
 			SSLSocketFactory sslsocketfactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
-			System.out.println("QBoard starting at port " + PORT);
+			System.out.println("CLIENT starting at port " + PORT);
 			socket = (SSLSocket) sslsocketfactory.createSocket();
 
 			//hack, @see Backbone

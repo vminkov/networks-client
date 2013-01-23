@@ -1,5 +1,3 @@
-
-
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
@@ -43,13 +41,12 @@ public class Backbone implements Runnable {
 		
 		Thread statusThread = null;
 		try {
-			statusThread = new ConnectionStatusThread("QBoard");
+			statusThread = new ConnectionStatusThread("CLIENT");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-//		executor.execute(statusThread);
-//		System.out.println("connection status checker running");
-//		
+		executor.execute(statusThread);
+		System.out.println("connection status checker running");
 		
 		scheduledExecutor.schedule((Runnable) new Backbone(), 2, TimeUnit.SECONDS);
 	}
@@ -62,9 +59,10 @@ public class Backbone implements Runnable {
 			System.out.println("\nPlease choose an option: ");
 			System.out.println("1. Add a new ticket" +
 					"\n2. List all tickets");
+			System.out.println("3. Drop every n-th package");
 			choice = sc.nextInt();
 			
-			if(choice < 0 || choice > 2){
+			if(choice < 0 || choice > 3){
 				continue;
 			}
 
@@ -89,6 +87,12 @@ public class Backbone implements Runnable {
 				System.out.println("requesting the tickets...");
 				GetTicketsListCommand getListCommand = new GetTicketsListCommand();
 				getListCommand.execute();
+				break;
+			case 3:
+				int n;
+				System.out.print("n= ");
+				n = sc.nextInt();
+				ConnectionStatusThread.dropEveryNthPackage = n;
 				break;
 			default:
 				break;

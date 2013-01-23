@@ -20,8 +20,9 @@ import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 
 public class SecureNetworkMessenger implements Runnable, Messenger {
-	private static final int PORT = 4815;
-	private static InetAddress serverAddress; 
+	private static final int PORT = 80;
+	public static InetAddress serverAddress; 
+	private static InetAddress thisHost; 
 	private SSLSocket socket;
 	private static Messenger instance;// = new SecureNetworkMessenger();
 	private OutputStream outputstream;
@@ -37,8 +38,11 @@ public class SecureNetworkMessenger implements Runnable, Messenger {
 	
 	private SecureNetworkMessenger() {
 		try {
-			serverAddress = InetAddress.getByName("192.168.0.102");
+			//serverAddress = InetAddress.getByName("192.168.0.111");
+			//serverAddress = InetAddress.getByName("95.111.25.233");
 			//serverAddress = InetAddress.getLocalHost();
+			
+			thisHost = InetAddress.getLocalHost();
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
@@ -53,13 +57,13 @@ public class SecureNetworkMessenger implements Runnable, Messenger {
 			//hack, @see Backbone
 			socket.setEnabledCipherSuites(new String[]{"SSL_DH_anon_WITH_3DES_EDE_CBC_SHA"});
 			
-			socket.bind(new InetSocketAddress(serverAddress, PORT));
+			socket.bind(new InetSocketAddress(thisHost, PORT));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		InetSocketAddress localSocketAddress = new InetSocketAddress(serverAddress, 2343);
+		InetSocketAddress serverSocketAddress = new InetSocketAddress(serverAddress, 2343);
         try {
-        		socket.connect(localSocketAddress);
+        		socket.connect(serverSocketAddress);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}

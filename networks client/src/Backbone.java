@@ -1,4 +1,6 @@
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -22,6 +24,19 @@ public class Backbone implements Runnable {
 	 * TODO Revise concurrency. Events? p.s. event driven mvc SUCKS!
 	 */
 	public static void main(String[] args) {
+		System.out.println("Enter the server IP address: ");
+		String serverIp = null;
+		
+		Scanner sc = new Scanner(System.in);
+		serverIp = sc.nextLine();
+		
+		try {
+			SecureNetworkMessenger.serverAddress = InetAddress.getByName(serverIp);
+		} catch (UnknownHostException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		ExecutorService executor = Executors.newCachedThreadPool();
 		ScheduledExecutorService scheduledExecutor = Executors.newScheduledThreadPool(2);
         System.setProperty("java.net.useSystemProxies", "false");	
